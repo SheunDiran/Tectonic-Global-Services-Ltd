@@ -1,0 +1,35 @@
+#navigation{
+    position: sticky;
+    top: 0%;
+    z-index: 100;
+}
+.carousel-inner img {
+    height: 600px;}
+    
+.menu  a{
+        color:white !important ;
+    }
+  body{
+    font-family:'Lucida Sans', sans-serif; ;
+  }
+  .footer {
+min-height: 200px;
+background-color: green;
+color: white;
+  }
+  .footer a{
+   text-decoration:none ;
+   color: white;
+      }
+      .service a{
+        color:green;
+        text-decoration: none;
+      }
+      .service button a{
+        color:white;
+        text-decoration: none;
+      }
+     
+      
+      
+      
