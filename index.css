@@ -3,6 +3,27 @@
     top: 0%;
     z-index: 100;
 }
+#navi{
+  position: fixed;
+  top: 10%;
+  left:35%;
+  z-index: 120;
+}
+.first h5 a{
+  text-decoration: none;
+  color: red;
+}
+nav a h4 {
+background-color:rgb(0, 225, 112);
+min-height:50px ;
+width:150px;
+text-align:center ;
+text-decoration: underline;
+}
+.border{
+  background-color: green;
+  color: white;
+}
 .carousel-inner img {
     height: 600px;}
     
