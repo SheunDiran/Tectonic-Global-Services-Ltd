@@ -1,0 +1,17 @@
+{% include 'User/header.html' %}
+
+  <div class="row">
+    <div class="col">
+        OOPS! The page you are looking for cannot  be found
+        {{error}}
+        <span>Please visit our homepage and explore more...</span>
+        <a class="navbar-brand btn btn-success " href="{{url_for('home')}}">
+            Homepage</a>
+            
+    </div>
+  </div>
+
+
+
+      
+  {% include 'User/footer.html' %}

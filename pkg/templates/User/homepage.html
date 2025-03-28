@@ -1,0 +1,62 @@
+{% include 'User/header.html' %}
+<h1>{%with message=get_flashed_messages(with_categories=True)%}
+  {%if message%}
+   {%for cart,a in message%}
+   {%if cart =='error'%}
+  <p style='border:5px solid red;'class="alert alert-primary">{{a}} </p>
+   {%else%}
+    <p style='border:5px solid green;'class="alert alert-succes">{{a}} {{email}}</p>
+  {%endif%}
+  {%endfor%}    
+  {%endif%}
+  {%endwith%}
+</h1>
+
+ <!-- Background-image(carousel) -->
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="/static/images/banner1.avif" class="d-block  w-100 " alt="survey">
+            
+          </div>
+          <div class="carousel-item">
+            <img src="/static/images/engineerswebp.webp" class="w-100 " alt="enginners at work">
+          </div>
+          <div class="carousel-item">
+            <img src="/static/images/mapping.webp" class="d-block w-100" alt="mapping">
+          </div>
+          <div class="carousel-item">
+            <img src="/static/images/enginner2.jpg" class="d-block w-100" alt="enginners at work">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+        <!-- services section  -->
+         <div class="row service m-3 ">
+          <h1 class="text-center text-success"><a href="services.html">OUR SERVICES</a></h1>
+          <div class="col-md-4">
+            <img src="/static/images/digitalmapping.pg.jpg"alt="">
+           <h1><a href="services.html">Digital mapping</a></h1>
+          </div>
+          <div class="col-md-4">
+            <img src="/static/images/inverter.jpg"alt="" width="200px">
+            <h1><a href="services.html">Mpower Inverters</a></h1>
+          </div>
+          <div class="col-md-4">
+            <img src="/static/images/engineering.jpg"alt="" >
+            <h1><a href="services.html">Engineering</a></h1>
+          </div>
+          <div class="col-md-6">
+            <button  class="btn btn-success"><a href="services.html">View More</a></button>
+          </div>
+          </div>     
+          </div>
+        </div>
+        {% include 'User/footer.html' %}   

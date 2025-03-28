@@ -1,0 +1,67 @@
+{% include 'User/header.html' %}
+
+      <!-- regristration form -->
+      <h1>{%with message=get_flashed_messages(with_categories=True)%}
+        {%if message%}
+         {%for cart,a in message%}
+         {%if cart =='error'%}
+        <p style='border:5px solid red;'class="alert alert-primary">{{a}} </p>
+         {%else%}
+          <p style='border:5px solid green;'class="alert alert-succes">{{a}} {{email}}</p>
+        {%endif%}
+        {%endfor%}    
+        {%endif%}
+        {%endwith%}
+      </h1>
+        <div class="row">
+            <div class="col-md-12 m-3  ">
+                <h1 class="text-center mt-5">FORM UPDATE</h1>
+                  <form action="" class="m-3 text-light p-3" method="post" novalidate > 
+                   
+                    {{form.csrf_token}}
+                  
+                  {{form.fullname(placeholder='enter your fullname',class='form-control')}}
+                  {%if form.fullname.errors%}
+                          {%for error in form.fullname.errors%} 
+                          <span class="text-danger">{{error}}</span> <br>
+                          {%endfor%}
+                          {%endif%}
+                    <br>
+                    {{form.csrf_token}}
+                    
+                    {{form.phone(placeholder='enter your phone number',class='form-control')}}
+                    {%if form.phone.errors%}
+                            {%for error in form.phone.errors%} 
+                            <span class="text-danger">{{error}}</span> <br>
+                            {%endfor%}
+                            {%endif%}      
+                  
+                            <br>
+                            {{form.csrf_token}}
+                            
+                            {{form.service(class='form-control')}}
+                            {%if form.service.errors%}
+                                    {%for error in form.service.errors%} 
+                                    <span class="text-danger">{{error}}</span> <br>
+                                    {%endfor%}
+                                    {%endif%}  
+
+                                    <br>
+                                    {{form.csrf_token}}
+                                    {{form.message(class='form-control',placeholder='Leave a comment/message')}}
+                                    {%if form.message.errors%}
+                                            {%for error in form.message.errors%} 
+                                            <span class="text-danger">{{error}}</span> <br>
+                                            {%endfor%}
+                                            {%endif%}  
+                  <br> <br>
+                  {{form.button(class='btn btn-success')}}
+                  
+                  </form>
+                  </div>
+                  </div>
+                     
+            
+      {% include 'User/footer.html' %}
+
+
