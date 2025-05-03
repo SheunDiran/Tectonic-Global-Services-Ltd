@@ -1,46 +1,303 @@
 {% include 'User/header.html' %}
 
+<!-- Hero Section -->
+<div class="container-fluid mt-5" style="background-image: linear-gradient(to bottom, #3498db, #2ecc71); padding: 100px; color: #fff; text-align: center; animation: fadeIn 2s;">
+    <h1>Our Services</h1>
+    <p>Discover the range of services we offer</p>
+</div>
 
-<!-- Services-->
- <div class="container">
- <div class="row">
-    <div class="col bg-light">
-        <h1 class="text-center m-5 mb-3">WHAT WE DO</h1>
-        
+
+
+
+<!-- Surveying Section -->
+<div class="container mt-5">
+    <h2 class="text-center" style="margin-bottom: 50px;">Surveying Services</h2>
+    <div class="row">
+        {% for s in services %}
+        {% if s.category.name == 'Surveying Services' %}
+        <div class="col-md-6  mb-4">
+            <div class="card service-card" data-bs-toggle="modal" 
+            data-bs-target="#serviceModal{{ s.id }}" 
+            style="border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); transition: transform 0.2s; animation: slideIn 1s;">
+                <div class="card-body">
+                    <h3 class="card-title">{{ s.name }}</h3>
+                    <p class="card-text">Category: {{ s.category.name }}</p>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="serviceModal{{ s.id }}" tabindex="-1" aria-labelledby="serviceModalLabel{{ s.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="serviceModalLabel{{ s.id }}">{{ s.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% if s.image.endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp')) %}
+                                    <img src="{{ url_for('static', filename='images/' + s.image) }}" 
+                                    alt="Service Image" class="img-fluid" width="300px">
+                                    {% else %}
+                                    <p>No image available or file type not supported.</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-12">
+                                    <h1 class="alert alert-success">Price: ₦
+                                        {{ "{:,.2f}".format(s.price) }} - {{ "{:,.2f}".format(s.maxprice) }}</h1>
+                                    <div style="white-space: pre-wrap;">
+                                        <h4 class="alert alert-success">Description:  {{ s.description }} </h4>
+                                    </div>
+                               
+                                    <h2 class="alert alert-success">Category: {% if s.category %} {{ s.category.name }} {% else %} Surveying services {% endif %} </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ url_for('handle_form_submission', service_id=s.id) }}" class="btn btn-success">Book Now</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
     </div>
- </div>
- <div class="row">
-    <div class="col-md-5">
-<h3 class="text-danger">Surveying Engineers</h3>
 </div>
-  <div class="col-md-3">
-    <h3>Geophysics  </h3>
+
+
+<!-- Engineering Section -->
+<div class="container mt-5">
+    <h2 class="text-center" style="margin-bottom: 50px;">Engineering Services</h2>
+    <div class="row">
+        {% for s in services %}
+        {% if s.category.name == 'Engineering Services' %}
+        <div class="col-md-6 mb-4">
+            <div class="card service-card" data-bs-toggle="modal" data-bs-target="#serviceModal{{ s.id }}" style="border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); transition: transform 0.2s; animation: slideIn 1s;">
+                <div class="card-body">
+                    <h3 class="card-title">{{ s.name }}</h3>
+                    <p class="card-text">Category: {{ s.category.name }}</p>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="serviceModal{{ s.id }}" tabindex="-1" aria-labelledby="serviceModalLabel{{ s.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="serviceModalLabel{{ s.id }}">{{ s.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {% if s.image.endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp')) %}
+                                    <img src="{{ url_for('static', filename='images/' + s.image) }}"
+                                     alt="Service Image" class="img-fluid" width="300px">
+                                    {% else %}
+                                    <p>No image available or file type not supported.</p>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-12">
+                                    <h3  class="alert alert-success">Price: ₦ {{ "{:,.2f}".format(s.price) }} - {{ "{:,.2f}".format(s.maxprice) }}</h3>
+                                    
+                                    <div style="white-space: pre-wrap;">
+                                        <h4 class="alert alert-success">Description:  {{ s.description }} </h4>
+                                    </div>
+                                    <p class="alert alert-success">Category: {% if s.category %} {{ s.category.name }} {% else %} Engineering services {% endif %} </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{{ url_for('handle_form_submission', service_id=s.id) }}" class="btn btn-success">Book Now</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+<!-- Testimonials Section -->
+<div class="container mt-5">
+  <h2 class="text-center" style="margin-bottom: 50px;">What Our Clients Say</h2>
+  <div class="row">
+     
+    
+     
+        <div class="carousel-inner">
+            {% for i in range(0, testimonials|length, 3) %}
+              <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                <div class="row ms-5">
+                  {% for testimonial in testimonials[i:i+3] %}
+                    <div class="col-md-4">
+                      <div class="card testimonial-card p-3 shadow-sm">
+                        <div class="card-body">
+                          <p class="testimonial-quote">"{{ testimonial.quote }}"</p>
+                          <p class="testimonial-rating">
+                            {% for j in range(1, testimonial.rating + 1) %}
+                              <i class="fa fa-star" style="color: #ffd700;"></i>
+                            {% endfor %}
+                            {% for j in range(testimonial.rating + 1, 6) %}
+                              <i class="fa fa-star" style="color: #ccc;"></i>
+                            {% endfor %}
+                          </p>
+                          <p class="testimonial-author text-muted">- {{ testimonial.author }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+        
+          
+      </div>
+     
   </div>
-  <div class="col-md-4 ">
-    <h3>Hydrography</h3>
-  </div>
-  
- </div>
-
- <div class="row">
-  <div class="col-md-9">
-<h3>Geo-Informations Consultants | Registered Surveyors</h3>
-</div>
-<div class="col-md-3 ">
-  <h3 class="text-danger">Digital Mapping</h3>
-</div>
 </div>
 
-<div class="row mt-4">
-  <h2 class="text-center  border">OUR SALES</h2>
-  <div class="col">
-<h3>HP Laptops</h3>
-</div>
-<div class="col ">
-  <h3 >Mpower Inverters</h3>
+
+
+<!-- Service Comparison Table -->
+<div class="container mt-5">
+    <h2 class="text-center" style="margin-bottom: 50px;">Service Comparison</h2>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+    <th>Service</th>
+    <th>Features</th>
+    <th>Pricing</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>Land Surveying</td>
+    <td>
+    <ul>
+    <li>Accurate boundary determination</li>
+    <li>Detailed topographic mapping</li>
+    <li>Identification of potential site issues</li>
+    </ul>
+    </td>
+    <td>₦500,000 - ₦1,500,000</td>
+    </tr>
+    <tr>
+        <tr>
+            <td>MPower Inverters</td>
+            <td>
+            <ul>
+            <li>Reliable power backup solutions</li>
+            <li>High-quality inverters for homes and businesses</li>
+            <li>Energy efficiency and cost savings</li>
+            </ul>
+            </td>
+            <td>Custom pricing (dependent on inverter capacity and installation requirements) <br> Price range:₦ 153,000.00 - 1,587,000.00
+            </td>
+    </tr>
+    <tr>
+    <td>Registered Surveyors</td>
+    <td>
+    <ul>
+    <li>Expert advice on property boundaries and measurements</li>
+    <li>Preparation of survey reports and plans</li>
+    <li>Dispute resolution and expert testimony</li>
+    </ul>
+    </td>
+    <td>₦500,000 - ₦10,000,000</td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+
+
+
+
+<!-- FAQs Section -->
+<div class="container mt-5">
+    <h2 class="text-center" style="margin-bottom: 50px;">Frequently Asked Questions</h2>
+    <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    What is land surveying, and why is it important?
+    </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+    <div class="alert alert-success accordion-body">
+    Land surveying is the process of determining property boundaries, mapping topography, and identifying potential site issues. It's essential for construction, development, and property ownership.
+    </div>
+    </div>
+    </div>
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+    What services do registered surveyors offer?
+    </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+    <div class="alert alert-success accordion-body">
+    Registered surveyors provide expert advice on property boundaries, prepare survey reports and plans, and offer dispute resolution and expert testimony services.
+    </div>
+    </div>
+    </div>
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+    How accurate are surveying services?
+    </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+    <div class="alert alert-success accordion-body">
+    Our surveying services are highly accurate, utilizing advanced technology and expertise to ensure precise measurements and mapping.
+    </div>
+    </div>
+    </div>
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="headingFour">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+    What is the process of conducting a land survey?
+    </button>
+    </h2>
+    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+    <div class="alert alert-success accordion-body">
+    Our land survey process involves site assessment, data collection, mapping, and reporting, ensuring accurate and reliable results.
+    </div>
+    </div>
+    </div>
+    <div class="accordion-item">
+    <h2 class="accordion-header" id="headingFive">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+    Why do I need a registered surveyor for my property?
+    </button>
+    </h2>
+    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+    <div class="alert alert-success accordion-body">
+    A registered surveyor ensures that your property boundaries are accurately determined, reducing potential disputes and providing expert advice.
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+
+
+<!-- Call-to-Action Section -->
+<div class="container mt-5" style="background-color: #3498db; padding: 50px; color: #fff; text-align: center;">
+  <h2>Get in Touch</h2>
+  <p>Contact us to learn more about our services and sales.</p>
+  <a href="#footer" style="color: #fff; font-size: 24px;">
+      <i class="fa fa-arrow-down"></i>
+  </a>
 </div>
 
-</div>
-</div>
-      
+
+
+
 {% include 'User/footer.html' %}

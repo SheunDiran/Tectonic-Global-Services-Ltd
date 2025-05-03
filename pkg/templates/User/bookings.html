@@ -1,10 +1,20 @@
-
+{% include 'User/header.html' %}
   <div class="row">
     <div class="col">
         <a class="navbar-brand " href="{{url_for('home')}}">
             
     </div>
   </div>
+  <h1>{%with messages=get_flashed_messages()%}
+     {%for message in messages%}
+     {%if messages%}
+    <p style='border:5px solid red;'class="alert alert-primary">{{message}} </p>
+    {%else%}
+      <p style='border:5px solid green;'class="alert alert-succes">{{message}}</p>
+      {%endif%}
+      {%endfor%}    
+    {%endwith%}
+  </h1>
 <div>
   <h1 class="ms-3">Bookings:{{count}}</h1>
   

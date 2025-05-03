@@ -1,0 +1,29 @@
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>Quote</th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for testimonial in testimonials %}
+            <tr>
+                <td>{{ testimonial.quote }}</td>
+                <td>{{ testimonial.author }}</td>
+                <td>{{ testimonial.status }}</td>
+                <td>
+                    {% if testimonial.status == 'pending' %}
+                        <a href="{{ url_for('approve_testimonial', testimonial_id=testimonial.id) }}">Approve</a> |
+                        <a href="{{ url_for('reject_testimonial', testimonial_id=testimonial.id) }}">Reject</a>
+                    {% elif testimonial.status == 'approved' %}
+                        <span class="text-success">Approved</span>
+                    {% elif testimonial.status == 'rejected' %}
+                        <span class="text-danger">Rejected</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

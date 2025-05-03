@@ -1,0 +1,198 @@
+{% extends 'Admin/base_layout.html' %}
+
+
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="mt-4" style="color: #2c3e50;">Services</h1>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <script>
+                {% for category, message in messages %}
+                  {% if category == 'success' %}
+                    Swal.fire({
+                      icon: 'success',
+                      title: '{{ message }}',
+                      timer: 3000,
+                      showConfirmButton: false
+                    })
+                  {% elif category == 'error' %}
+                    Swal.fire({
+                      icon: 'error',
+                      title: 'Error',
+                      text: '{{ message }}',
+                    })
+                  {% endif %}
+                {% endfor %}
+              </script>
+            {% endif %}
+          {% endwith %}
+
+            <button type="button" class="btn btn-success mt-3" data-bs-toggle="modal" data-bs-target="#addServiceModal">
+                <i class="fas fa-plus"></i> Add Service
+            </button>
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Service Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for service in services %}
+                    <tr>
+                        <td>{{ service.name }}</td>
+                        <td>{{ service.description[:50] }}...</td>
+                        <td>{{ service.price }}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editServiceModal{{ service.id }}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteServiceModal{{ service.id }}">
+                                <i class="fas fa-trash"></i> Delete
+                            </button>
+                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewServiceModal{{ service.id }}">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Service Modal -->
+<div class="modal fade" id="addServiceModal" tabindex="-1" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <div class="modal-header" style="background-color: #2c3e50; color: #fff;">
+                <h5 class="modal-title" id="addServiceModalLabel">Tectonic Global Services Limited</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="color: #fff;"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" action="{{ url_for('admin') }}">
+                    {{ form.hidden_tag() }}
+                    {{ form.name.label }} {{ form.name(class="form-control") }}
+                    {{ form.description.label }} {{ form.description(class="form-control") }}
+                    {{ form.price.label }} {{ form.price(class="form-control") }}
+                    {{ form.maxprice.label }} {{ form.maxprice(class="form-control") }}
+                    {{ form.image.label }} {{ form.image(class="form-control") }}
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #95a5a6; border-color: #95a5a6;">Close</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #34C759; border-color: #34C759;">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Delete Service Modal -->
+{% for service in services %}
+<div class="modal fade" id="deleteServiceModal{{ service.id }}" tabindex="-1" aria-labelledby="deleteServiceModalLabel{{ service.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <div class="modal-header" style="background-color: #2c3e50; color: #fff;">
+                <h5 class="modal-title" id="deleteServiceModalLabel{{ service.id }}">Delete Service</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="color: #fff;"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete {{ service.name }}?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #95a5a6; border-color: #95a5a6;">Close</button>
+                <a href="{{ url_for('delete_service', service_id=service.id) }}" class="btn btn-danger" style="background-color: #e74c3c; border-color: #e74c3c;">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<!-- View Service Offcanvas -->
+{% for service in services %}
+<div class="modal fade" id="viewServiceModal{{ service.id }}" tabindex="-1" aria-labelledby="viewServiceModalLabel{{ service.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header about">
+                <h5 class="modal-title" id="viewServiceModalLabel{{ service.id }}">{{ service.name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="font-size: 24px; padding: 50px;">
+                <h2 style="color:limegreen; font-size: 36px; font-weight: bold;">Service Details</h2>
+                <div class="section-title" style="font-size: 36px; font-weight: bold;">Description</div>
+                <p style="text-align: justify;">{{ service.description }}</p>
+                <div class="section-title" style="font-size: 36px; font-weight: bold;">Price</div>
+                <p style="text-align: justify;">{{ service.price }}</p>
+                <br>
+                <img src="{{ url_for('static', filename='images/' + service.image) }}" alt="Service Image" style="width: 100%; height: auto;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{%endfor%}
+
+<!-- Edit Service Modal -->
+{% for service in services %}
+<div class="modal fade" id="editServiceModal{{ service.id }}" tabindex="-1" aria-labelledby="editServiceModalLabel{{ service.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <div class="modal-header" style="background-color: #2c3e50; color: #fff;">
+                <h5 class="modal-title" id="editServiceModalLabel{{ service.id }}">Edit Service</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="color: #fff;"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" enctype="multipart/form-data" action="{{ url_for('edit_service', service_id=service.id) }}">
+                    {{ edit_form.hidden_tag() }}
+                    {{ edit_form.name.label }} {{ edit_form.name(class="form-control", value=service.name) }}
+                    {{ edit_form.description.label }} 
+                    <textarea class="form-control" name="description">{{ service.description }}</textarea>
+                    {{ edit_form.price.label }} {{ edit_form.price(class="form-control", value=service.price) }}
+                    {{ edit_form.maxprice.label }} {{ edit_form.maxprice(class="form-control", value=service.maxprice) }}
+                    {{ edit_form.image.label }}
+                    <input type="file" class="form-control" name="image" id="image{{ service.id }}" onchange="document.getElementById('file-chosen{{ service.id }}').innerHTML = this.files[0].name; document.getElementById('image-preview{{ service.id }}').src = window.URL.createObjectURL(this.files[0]);">
+                    <span id="file-chosen{{ service.id }}">{{ service.image }}</span>
+                    <img id="image-preview{{ service.id }}" src="{{ url_for('static', filename='images/' + service.image) }}" alt="Service Image" style="width: 100px; height: 100px;">
+                
+                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="background-color: #95a5a6; border-color: #95a5a6;">Close</button>
+                        <button type="submit" class="btn btn-primary" style="background-color: #34C759; border-color: #34C759;">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+                 
+                                  
+<script src="js/scripts.js"></script>
+
+<script>
+    document.getElementById('image').addEventListener('change', function() {
+        if (this.files.length > 0) {
+            document.getElementById('file-chosen').innerHTML = this.files[0].name;
+        } else {
+            document.getElementById('file-chosen').innerHTML = '{{ service.image }}';
+        }
+    });
+    
+</script>
+
+{% endfor %}
+{% endblock %}
