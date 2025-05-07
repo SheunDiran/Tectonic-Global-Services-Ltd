@@ -1,8 +1,6 @@
 from flask import Flask
 from pkg import config
 import os
-from dotenv import load_dotenv
-load_dotenv()
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
 
