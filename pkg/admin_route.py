@@ -1,11 +1,9 @@
-from pkg import app 
-from flask import render_template, request, redirect, flash, url_for 
-from pkg.model import db, Service,Testimonials ,Booking,EmailNotification,Users,Category
-from pkg.myforms import ServiceForm 
-import os 
-from werkzeug.utils import secure_filename 
-
-
+from pkg import app
+from flask import render_template, request, redirect, flash, url_for
+from pkg.model import db, Service, Testimonials, Booking, EmailNotification, Users, Category
+from pkg.myforms import ServiceForm
+import os
+from werkzeug.utils import secure_filename
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
@@ -13,37 +11,33 @@ logging.basicConfig(level=logging.DEBUG)
 @app.before_request
 def log_request():
     logging.debug(f"Request: {request.method} {request.path}")
-# Configuration 
-UPLOAD_FOLDER = 'pkg/static/images' 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER 
 
-SERVICE_ADDED_SUCCESSFULLY = 'Service added successfully' 
-SERVICE_UPDATED_SUCCESSFULLY = 'Service updated successfully' 
-SERVICE_DELETED_SUCCESSFULLY = 'Service deleted successfully' 
+# Configuration
+UPLOAD_FOLDER = 'pkg/static/images'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
-
+SERVICE_ADDED_SUCCESSFULLY = 'Service added successfully'
+SERVICE_UPDATED_SUCCESSFULLY = 'Service updated successfully'
+SERVICE_DELETED_SUCCESSFULLY = 'Service deleted successfully'
 
 @app.route('/admin/', methods=['GET', 'POST'])
 def admin():
-    stats = {
-        'total_users': Users.query.count(),
-        'total_bookings': Booking.query.count(),
-        'total_services': Service.query.count(),
-        'total_testimonial': Testimonials.query.count(),
-    }
-    form = ServiceForm()
-    edit_form = ServiceForm()
-    categories = Category.query.all()
-    if categories:
-        form.category_id.choices = [(c.id, c.name) for c in categories]
-    else:
-        form.category_id.choices = []
-   
-
-    if form.validate_on_submit():
-        # form is valid, add service to database
-        try:
+    try:
+        stats = {
+            'total_users': Users.query.count(),
+            'total_bookings': Booking.query.count(),
+            'total_services': Service.query.count(),
+            'total_testimonial': Testimonials.query.count(),
+        }
+        form = ServiceForm()
+        edit_form = ServiceForm()
+        categories = Category.query.all()
+        if categories:
+            form.category_id.choices = [(c.id, c.name) for c in categories]
+        else:
+            form.category_id.choices = []
+        
+        if form.validate_on_submit():
             image = form.image.data
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -59,20 +53,20 @@ def admin():
             db.session.commit()
             flash(SERVICE_ADDED_SUCCESSFULLY, 'success')
             return redirect(url_for('admin'))
-        except Exception as e:
-            flash('An error occurred while adding the service', 'error')
-            app.logger.error(e)
-    else:
-        for field, errors in form.errors.items():
-            for error in errors:
-                flash(f"{field}: {error}", 'error')
-    services = Service.query.all()
-    testimonials = Testimonials.query.all()
-    bookings = Booking.query.all()
-    notifications = EmailNotification.query.all()
-    return render_template('Admin/dashboard.html', services=services, testimonials=testimonials,
-                            bookings=bookings,categories=categories,
-                            edit_form=edit_form, form=form, notifications=notifications, stats=stats)
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    flash(f"{field}: {error}", 'error')
+        
+        services = Service.query.all()
+        testimonials = Testimonials.query.all()
+        bookings = Booking.query.all()
+        notifications = EmailNotification.query.all()
+        return render_template('Admin/dashboard.html', services=services, testimonials=testimonials, bookings=bookings, categories=categories, edit_form=edit_form, form=form, notifications=notifications, stats=stats)
+    except Exception as e:
+        app.logger.error(e)
+        flash('An error occurred', 'error')
+        return redirect(url_for('admin'))
 
 @app.route('/delete_service/<int:service_id>', methods=['GET','POST'])
 def delete_service(service_id):

@@ -1,9 +1,10 @@
+
 import sqlite3
 from pkg import app
 from instance import config
-from flask import render_template,request,redirect,flash,url_for,abort,session,jsonify
+from flask import render_template, request, redirect, flash, url_for, abort, session, jsonify
 from pkg.myforms import ContactForm
-from pkg.model import db,Testimonials,Service,Users,Booking,EmailNotification,State,Lga,Category
+from pkg.model import db, Testimonials, Service, Users, Booking, EmailNotification, State, Lga, Category
 from flask_mail import Mail, Message
 from datetime import datetime
 
@@ -12,52 +13,54 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'oluwaseunoyediran641@gmail.com'
 app.config['MAIL_PASSWORD'] = 'rvla jpvq rjbq oyce'
-app.config['ADMIN_EMAIL']=config.ADMIN_EMAIL
+app.config['ADMIN_EMAIL'] = config.ADMIN_EMAIL
 DATABASE_NAME = 'Tectonic'
 mail = Mail(app)
 
 @app.after_request
-
 def after_request(response):
     response.headers["Cache-Control"] = "no-cache,no-store, must-revalidate"
     return response
 
 @app.errorhandler(404)
 def pagenotfound(error):
-    return render_template('User/404error.html',error=error), 404
+    return render_template('User/404error.html', error=error), 404
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    return render_template('User/500.html',error=error), 500
+    return render_template('User/500.html', error=error), 500
 
 @app.errorhandler(503)
 def error(error):
-    return render_template('User/503.html',error=error), 503
-
-
-
+    return render_template('User/503.html', error=error), 503
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE_NAME)
     conn.row_factory = sqlite3.Row
     return conn
 
-
-
 @app.route('/get_lgas/', methods=['POST'])
 def get_lgas():
-    state_id = request.form['state_id']
-    lgas = Lga.query.filter_by(state_id=state_id).all()
-    return jsonify([{'id': lga.lga_id, 'name': lga.lga_name} for lga in lgas])
-
+    try:
+        state_id = request.form['state_id']
+        lgas = Lga.query.filter_by(state_id=state_id).all()
+        return jsonify([{'id': lga.lga_id, 'name': lga.lga_name} for lga in lgas])
+    except Exception as e:
+        app.logger.error(f"Error getting LGAs: {e}")
+        return jsonify([])
 
 @app.route('/home/')
 def home():
-    testimonials = Testimonials.query.filter_by(status='approved').order_by(Testimonials.id.desc()).all()
-    message = session.pop('message', None)
-    booking_success = session.pop('booking_success', False)
-    email = session.pop('email', '')
-    return render_template('User/homepage.html', testimonials=testimonials, message=message, booking_success=booking_success, email=email)
+    try:
+        testimonials = Testimonials.query.filter_by(status='approved').order_by(Testimonials.id.desc()).all()
+        message = session.pop('message', None)
+        booking_success = session.pop('booking_success', False)
+        email = session.pop('email', '')
+        return render_template('User/homepage.html', testimonials=testimonials, message=message, booking_success=booking_success, email=email)
+    except Exception as e:
+        app.logger.error(f"Error displaying home page: {e}")
+        flash('An error occurred', 'error')
+        return redirect(url_for('home'))
 
 
 @app.route('/about/')
