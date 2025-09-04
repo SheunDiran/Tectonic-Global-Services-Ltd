@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/index.css">
+  <title>OMAK Logistics — {{ title }}</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #e74c3c, #f39c12);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ✅ Topbar */
+    .topbar {
+      min-height: 50px;
+      background-color: #000; 
+      color: white;
+      padding: 6px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      border-top: 2px solid red;
+    }
+
+    nav .nav-link:hover {
+      color: red;
+    }
+
+    /* ✅ Auth Box */
+    .auth-box {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0px 10px 35px rgba(0,0,0,0.2);
+      overflow: hidden;
+      max-width: 950px;
+      width: 100%;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+
+    .form-section {
+      flex: 1;
+      padding: 40px;
+      transition: all 0.5s ease;
+      min-width: 300px;
+    }
+
+    .form-section h2 {
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: #c0392b;
+      font-size: 24px;
+    }
+
+    .form-control {
+      border-radius: 12px;
+      padding: 12px 15px;
+      font-size: 15px;
+    }
+
+    .btn-custom {
+      border-radius: 12px;
+      padding: 12px;
+      font-weight: 600;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    .btn-custom:hover {
+      transform: translateY(-2px);
+    }
+
+    /* ✅ Info Section */
+    .info-section {
+      flex: 1;
+      position: relative;
+      background: url('https://images.unsplash.com/photo-1581092336006-9e1d87d6f5b8?auto=format&fit=crop&w=1000&q=80') center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      color: #fff;
+      padding: 40px;
+      min-width: 300px;
+    }
+
+    .info-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(192, 57, 43, 0.8); /* red overlay with opacity */
+    }
+
+    .info-section h3,
+    .info-section p,
+    .info-section button {
+      position: relative;
+      z-index: 1;
+    }
+
+    .info-section h3 {
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    .info-section p {
+      font-size: 15px;
+      margin-bottom: 20px;
+    }
+
+    .info-section button {
+      border: none;
+      padding: 12px 30px;
+      border-radius: 25px;
+      background: #fff;
+      color: #c0392b;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 15px;
+    }
+
+    .info-section button:hover {
+      background: #c0392b;
+      color: #fff;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* ✅ Mobile Responsiveness */
+    @media (max-width: 992px) {
+      .auth-box {
+        flex-direction: column;
+        max-width: 90%;
+        margin-top: 20px;
+      }
+
+      .form-section, 
+      .info-section {
+        min-width: 100%;
+        padding: 25px;
+      }
+
+      .form-section h2 {
+        font-size: 20px;
+      }
+
+      .form-control {
+        font-size: 14px;
+      }
+
+      .btn-custom {
+        font-size: 14px;
+      }
+
+      .info-section h3 {
+        font-size: 18px;
+      }
+
+      .info-section p {
+        font-size: 13px;
+      }
+
+      .info-section button {
+        font-size: 14px;
+        padding: 10px 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Include your header -->
+  {% include 'User/header.html' %}
+
+  <!-- ✅ Login/Register Box -->
+  <div class="auth-box">
+    <!-- Login -->
+    <div class="form-section mb-5" id="loginForm">
+      <h2>Welcome Back 🚚</h2>
+      <form method="POST" action="{{ url_for('login') }}">
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="btn btn-danger w-100 btn-custom">Login</button>
+      </form>
+    </div>
+
+    <!-- Register -->
+    <div class="form-section hidden" id="registerForm">
+      <h2>Create Account ✨</h2>
+      <form method="POST" action="{{ url_for('register') }}">
+        <div class="mb-2">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-control" name="fullname" placeholder="Enter your full name" required>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" name="password" placeholder="Create password" required>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Phone</label>
+          <input type="text" class="form-control" name="phone" placeholder="Enter phone number">
+        </div>
+        <button type="submit" class="btn btn-success w-100 btn-custom">Register</button>
+      </form>
+    </div>
+
+    <!-- Info Section -->
+    <div class="info-section">
+      <h3 id="toggleTitle">Don’t have an account?</h3>
+      <p id="toggleText">Register now and start tracking your deliveries with ease.</p>
+      <button id="toggleBtn" onclick="toggleForms()">Register</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleForms() {
+      let loginForm = document.getElementById("loginForm");
+      let registerForm = document.getElementById("registerForm");
+      let toggleTitle = document.getElementById("toggleTitle");
+      let toggleText = document.getElementById("toggleText");
+      let toggleBtn = document.getElementById("toggleBtn");
+
+      loginForm.classList.toggle("hidden");
+      registerForm.classList.toggle("hidden");
+
+      if (loginForm.classList.contains("hidden")) {
+        toggleTitle.innerText = "Already have an account?";
+        toggleText.innerText = "Login to access your dashboard and deliveries.";
+        toggleBtn.innerText = "Login";
+      } else {
+        toggleTitle.innerText = "Don’t have an account?";
+        toggleText.innerText = "Register now and start tracking your deliveries with ease.";
+        toggleBtn.innerText = "Register";
+      }
+    }
+  </script>
+
+  <script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+</body>
+</html>
+{% include 'User/footer.html' %}

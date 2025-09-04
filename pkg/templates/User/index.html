@@ -1,0 +1,442 @@
+{%include 'User/header.html'%}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OMAK Logistics — OMAK Multi Concept LTD</title>
+  <meta name="description" content="OMAK Logistics — Intercontinental & Interstate Logistics, Cargo & State Riders Delivery" />
+ <style>
+  /* Footer Menu */
+.footer-menu {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  background-color: #111;
+  flex-wrap: wrap;
+}
+.menu-item {
+  flex: 1;
+  text-align: center;
+  padding: 15px 10px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+.menu-item i {
+  font-size: 20px;
+  color: red;
+  display: block;
+  margin-bottom: 8px;
+}
+.menu-item span {
+  font-size: 14px;
+  display: block;
+}
+.menu-item:hover {
+  background-color: #fff;
+  color: red;
+}
+.menu-item:hover i {
+  color: red;
+}
+.menu-item.active {
+  background-color: red;
+  color: #fff;
+}
+.menu-item.active i {
+  color: #fff;
+}
+
+/* Base Reset */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #082027;
+}
+a { color: inherit; text-decoration: none; }
+
+/* Navigation */
+header.nav {
+  background: #fff;
+  padding: 18px 18px;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  backdrop-filter: blur(6px);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.nav-links {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.nav-links a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.nav-links a.cta {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* Layout & Containers */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+section {
+  padding: 28px 0;
+}
+
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 26px;
+  align-items: start;
+  padding: 48px 0;
+}
+.hero-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid #e6f0ec;
+}
+h1 {
+  font-size: 2.1rem;
+  margin: 0 0 8px;
+}
+p.lead {
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+/* Forms & Buttons */
+.track-inline {
+  display: flex;
+  gap: 10px;
+}
+.input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e6f0ec;
+  outline: none;
+  font-size: 15px;
+}
+
+/* Cards & Grids */
+.actions-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+.action-card {
+  background: var(--card);
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #e6f0ec;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow);
+}
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.services { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; padding: 28px 0; }
+.service {
+  background: var(--card);
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #e6f0ec;
+  box-shadow: var(--shadow);
+}
+.subtle { color: var(--muted); font-size: 0.98rem; }
+
+/* Footer */
+footer {
+  background: #02221a;
+  color: #bfead0;
+  padding: 30px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .hero { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+}
+@media (max-width: 640px) {
+  .services { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  height: 500px;
+}
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: left 0.8s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 80px;
+}
+.carousel-slide.active { left: 0; }
+.carousel-slide.prev { left: -100%; }
+.carousel-slide::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+}
+.carousel-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: flex-end;
+  padding: 40px;
+  text-align: right;
+  color: #fff;
+}
+.carousel-overlay .content {
+  max-width: 500px;
+}
+.carousel-overlay h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.carousel-overlay p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+.carousel-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+.carousel-controls button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.carousel-controls button.active {
+  background: var(--accent);
+}
+.carousel-item img {
+  object-fit: cover;
+  height: 500px;
+  width: 100%;
+  border-radius: 10px;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 100% 100%;
+  filter: invert(1);
+}
+
+ </style>
+</head>
+<body>
+  <!-- Carousel -->
+   <div id="previewCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+  <div class="carousel-inner">
+    <!-- Slide 1 -->
+    <div class="carousel-item active" style="background-image: url('/static/images/oma.jpeg'); background-size: cover; background-position: center; height: 80vh;">
+      <div class=" content carousel-overlay d-flex flex-column justify-content-center align-items-center text-white text-center h-100">
+        <h2>Intercontinental Logistics</h2>
+        <p>Fast, reliable, and secure cargo delivery across borders.</p>
+        <a href="#services" class="btn btn-danger mt-3">Learn More</a>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="carousel-item" style="background-image: url('/static/images/interstate.jpg'); background-size: cover; background-position: center; height: 80vh;">
+      <div class=" content carousel-overlay d-flex flex-column justify-content-center align-items-center text-white text-center h-100">
+        <h2>Interstate Deliveries</h2>
+        <p>Connecting Nigerian cities with safe and timely delivery.</p>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="carousel-item" style="background-image: url('/static/images/people.jpg'); background-size: cover; background-position: center; height: 80vh;">
+      <div class=" content carousel-overlay d-flex flex-column justify-content-center align-items-center text-white text-center h-100">
+        <h2>Corporate Cargo Solutions</h2>
+        <p>Tailored logistics services for businesses and organizations.</p>
+      </div>
+    </div>
+
+    <!-- Slide 4 -->
+    <div class="carousel-item" style="background-image: url('/static/images/cargo.jpg'); background-size: cover; background-position: center; height: 80vh;">
+      <div class=" content carousel-overlay d-flex flex-column justify-content-center align-items-center text-white text-center h-100">
+        <h2>State Riders Delivery</h2>
+        <p>Quick and efficient local riders at your service.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#previewCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#previewCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+
+
+
+
+   {%include 'User/footer.html'%}
+
+
+   <script>
+    const slides = document.querySelectorAll(".carousel-slide");
+    const controlsContainer = document.getElementById("carousel-controls");
+
+    let current = 0;
+
+    // Create control buttons
+    slides.forEach((_, i) => {
+      const btn = document.createElement("button");
+      if (i === 0) btn.classList.add("active");
+      btn.addEventListener("click", () => goToSlide(i));
+      controlsContainer.appendChild(btn);
+    });
+
+    const buttons = controlsContainer.querySelectorAll("button");
+
+    function goToSlide(index) {
+      slides[current].classList.remove("active");
+      buttons[current].classList.remove("active");
+      current = index;
+      slides[current].classList.add("active");
+      buttons[current].classList.add("active");
+    }
+
+    // Auto slide every 5s
+    setInterval(() => {
+      let next = (current + 1) % slides.length;
+      goToSlide(next);
+    }, 5000);
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+  <script>
+    // footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Demo shipment for testing
+    const demo = {
+      tracking_id: 'OMAKDEMO123',
+      status: 'In Transit',
+      origin: 'Ikeja, Lagos',
+      destination: 'Garki, Abuja',
+      eta: new Date(Date.now() + 72*60*60*1000).toDateString(),
+      last_scan: 'Benin City Hub — Departed'
+    };
+
+    function renderShipment(s) {
+      return `<strong>${s.tracking_id}</strong><br/>
+              Status: <strong>${s.status}</strong><br/>
+              Route: ${s.origin} → ${s.destination}<br/>
+              ETA: ${s.eta}<br/>
+              Last Scan: ${s.last_scan}`;
+    }
+
+    function showResult(el, html) {
+      el.style.display = 'block'; el.innerHTML = html;
+    }
+
+    // Quick home track
+    document.getElementById('homeQuickBtn').addEventListener('click', () => {
+      const val = document.getElementById('homeQuickTrack').value.trim().toUpperCase();
+      const out = document.getElementById('homeQuickResult');
+      if(!val){ out.style.display='none'; return; }
+      if(val === demo.tracking_id){ showResult(out, renderShipment(demo)); } 
+      else { showResult(out, `Tracking: <strong>${val}</strong><br/>Status: <strong>Not Found</strong> — Please check your ID.`); }
+      location.hash = '#track';
+    });
+
+    // main track button
+    document.getElementById('trackBtn').addEventListener('click', () => {
+      const val = document.getElementById('trackInput').value.trim().toUpperCase();
+      const out = document.getElementById('trackOutput');
+      if(!val){ out.style.display='none'; return; }
+      if(val === demo.tracking_id){ showResult(out, renderShipment(demo)); } 
+      else { showResult(out, `Tracking: <strong>${val}</strong><br/>Status: <strong>Not Found</strong> — please confirm ID.`); }
+    });
+
+    document.getElementById('clearTrack').addEventListener('click', () => {
+      document.getElementById('trackInput').value=''; document.getElementById('trackOutput').style.display='none';
+    });
+
+    // booking demo (frontend only, POST to backend later)
+    document.getElementById('bookForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = 'OMAK' + Math.floor(Math.random()*900000 + 100000);
+      document.getElementById('bookMsg').style.display='block';
+      document.getElementById('bookMsg').innerHTML = `Pickup request received. Generated tracking ID: <strong>${id}</strong>. Our dispatcher will contact you.`;
+      e.target.reset();
+    });
+
+    // contact form
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('cmsgResult').style.display='block';
+      document.getElementById('cmsgResult').textContent = 'Thanks — we received your message and will reply via email/phone.';
+      e.target.reset();
+    });
+
+    // login placeholder
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      document.getElementById('adminMsg').style.display='block';
+      document.getElementById('adminMsg').textContent = 'Admin login placeholder — backend auth to be added.';
+    });
+
+    // contact citation (console)
+    console.info('About & contact pulled from uploaded PDF (company intro).');
+  </script>
+</body>
+</html>

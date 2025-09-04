@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Shipment</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<style>
+  body {font-family: 'Poppins', sans-serif; background: #f4f6f8; margin:0; padding:0;}
+  .container {max-width: 900px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);}
+  h2 {text-align:center; color:#e74c3c; margin-bottom:20px;}
+  .step {display:none; animation: fadeIn 0.5s ease-in-out;}
+  @keyframes fadeIn {from{opacity:0;} to{opacity:1;}}
+  label {display:block; margin-bottom:5px; font-weight:600; color:#333;}
+  input, select, textarea {width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc; font-size:14px;}
+  textarea {resize:vertical;}
+  .btn {padding:12px 25px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; font-size:15px; transition:0.3s;}
+  .btn-next {background:#e74c3c; color:#fff;}
+  .btn-next:hover {background:#c0392b;}
+  .btn-prev {background:#bdc3c7; color:#333; margin-right:10px;}
+  .btn-prev:hover {background:#95a5a6;}
+  .progressbar {display:flex; justify-content:space-between; counter-reset: step; margin-bottom:30px;}
+  .progressbar li {list-style:none; text-align:center; width:33%; position:relative; font-weight:600; color:#7f8c8d;}
+  .progressbar li:before {content: counter(step); counter-increment: step; width:30px; height:30px; line-height:30px; border:2px solid #7f8c8d; display:block; text-align:center; margin:0 auto 10px; border-radius:50%; background:white;}
+  .progressbar li.active:before {border-color:#e74c3c;}
+  .progressbar li.active {color:#e74c3c;}
+  .progressbar li:after {content:''; position:absolute; width:100%; height:2px; background:#7f8c8d; top:15px; left:-50%; z-index:-1;}
+  .progressbar li:first-child:after {content:none;}
+  .progressbar li.active + li:after {background:#e74c3c;}
+  @media(max-width:768px){.progressbar li:after{left:-40%;}}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Book Your Shipment</h2>
+
+  <ul class="progressbar">
+    <li class="active">Sender</li>
+    <li>Package</li>
+    <li>Confirm</li>
+  </ul>
+
+  <form id="shipmentForm" method="POST" action="{{ url_for('book_shipment') }}">
+    <!-- Step 1: Sender & Receiver Info -->
+    <div class="step active-step">
+      <h3>Sender Information</h3>
+      <label>Sender Name</label>
+      <input type="text" name="sender_name" required>
+
+      <label>Sender Phone</label>
+      <input type="text" name="sender_phone" required>
+
+      <label>Sender Email</label>
+<input type="email" name="sender_email" required>
+
+
+
+      <label>Sender State</label>
+      <select name="sender_state" id="sender_state" required>
+  <option value="">Select State</option>
+  {% for state in states %}
+    <option value="{{ state.state_id }}">{{ state.state_name }}</option>
+  {% endfor %}
+</select>
+
+
+      <label>Sender LGA</label>
+      <select id="sender_lga" name="sender_lga" required>
+        <option value="">Select LGA</option>
+      </select>
+
+      <label>Sender Address</label>
+      <textarea name="sender_address" rows="2" placeholder="Street, House number"></textarea>
+
+      <h3>Receiver Information</h3>
+      <label>Receiver Name</label>
+      <input type="text" name="receiver_name" required>
+
+      <label>Receiver Phone</label>
+      <input type="text" name="receiver_phone" required>
+
+      <label>Receiver Email</label>
+<input type="email" name="receiver_email" required>
+
+      <label>Receiver State</label>
+      <select id="receiver_state" name="receiver_state" required>
+        <option value="">Select State</option>
+        {% for state in states %}
+        <option value="{{ state.state_id }}">{{ state.state_name }}</option>
+        {% endfor %}
+      </select>
+
+      <label>Receiver LGA</label>
+      <select id="receiver_lga" name="receiver_lga" required>
+        <option value="">Select LGA</option>
+      </select>
+
+      <label>Receiver Address</label>
+      <textarea name="receiver_address" rows="2" placeholder="Street, House number"></textarea>
+
+      <button type="button" class="btn btn-next" onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 2: Package Details -->
+    <div class="step">
+      <h3>Package Details</h3>
+      <label>Package Type</label>
+      <select name="package_type" required>
+        <option value="">Select Type</option>
+        <option value="Document">Document</option>
+        <option value="Parcel">Parcel</option>
+        <option value="Fragile">Fragile</option>
+      </select>
+
+      <label>Weight (kg)</label>
+      <input type="number" name="weight" min="0" step="0.1" required>
+
+      <label>Description / Notes</label>
+      <textarea name="description" rows="3" placeholder="Additional info about package"></textarea>
+
+      <label>Voucher / Promo Code</label>
+      <input type="text" name="voucher" placeholder="Enter if any">
+
+      <button type="button" class="btn btn-prev" onclick="prevStep()">Previous</button>
+      <button type="button" class="btn btn-next" onclick="nextStep()">Next</button>
+    </div>
+
+    <!-- Step 3: Confirmation -->
+    <div class="step">
+      <h3>Confirm Details</h3>
+      <p>Check all your info before submitting.</p>
+      <div id="confirmDetails" style="background:#f0f0f0; padding:15px; border-radius:8px;"></div>
+
+      <button type="button" class="btn btn-prev" onclick="prevStep()">Previous</button>
+      <button type="submit" class="btn btn-next">Submit</button>
+    </div>
+  </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+$(document).ready(function(){
+  $('#sender_state, #receiver_state').select2({placeholder:'Select State', width:'100%'});
+  $('#sender_lga, #receiver_lga').select2({placeholder:'Select LGA', width:'100%'});
+
+  function loadLgas(stateId, targetLga){
+    if(stateId){
+      $.post("{{ url_for('get_lgas') }}", {state_id: stateId}, function(data){
+        let options = '<option value="">Select LGA</option>';
+        data.forEach(function(lga){
+          options += `<option value="${lga.id}">${lga.name}</option>`;
+        });
+        $(targetLga).html(options).trigger('change');
+      });
+    } else {
+      $(targetLga).html('<option value="">Select LGA</option>').trigger('change');
+    }
+  }
+  $('#sender_state').change(function(){
+    let stateId = $(this).val();
+    $.post("{{ url_for('get_lgas') }}", { state_id: stateId }, function(data){
+        let options = '<option value="">Select LGA</option>';
+        data.forEach(function(lga){
+            options += `<option value="${lga.id}">${lga.name}</option>`;
+        });
+        $('#sender_lga').html(options);
+    });
+});
+
+
+  $('#sender_state').change(function(){ loadLgas($(this).val(), '#sender_lga'); });
+  $('#receiver_state').change(function(){ loadLgas($(this).val(), '#receiver_lga'); });
+});
+
+// Multi-step logic
+let currentStep = 0;
+const steps = document.querySelectorAll('.step');
+const progressItems = document.querySelectorAll('.progressbar li');
+
+function showStep(index){
+  steps.forEach((step,i)=> step.style.display = i===index ? 'block' : 'none');
+  progressItems.forEach((item,i)=> item.classList.toggle('active', i<=index));
+}
+
+function nextStep(){
+  if(currentStep < steps.length - 1){
+    currentStep++;
+    if(currentStep === steps.length-1){ populateConfirmation(); }
+    showStep(currentStep);
+  }
+}
+
+function prevStep(){
+  if(currentStep > 0){ currentStep--; showStep(currentStep); }
+}
+
+function populateConfirmation(){
+    const form = document.getElementById('shipmentForm');
+    const confirmDiv = document.getElementById('confirmDetails');
+    let html = '';
+
+    Array.from(form.elements).forEach(el=>{
+        if(el.name && el.value){
+            let value = el.value;
+
+            // Replace state/lga IDs with names if needed
+            if(el.name === 'sender_state') value = $('#sender_state option:selected').text();
+            if(el.name === 'receiver_state') value = $('#receiver_state option:selected').text();
+            if(el.name === 'sender_lga') value = $('#sender_lga option:selected').text();
+            if(el.name === 'receiver_lga') value = $('#receiver_lga option:selected').text();
+            
+if(el.name === 'pickup_date') value = new Date(value).toLocaleDateString(); // Format date nicely
+
+
+            html += `<strong>${el.name.replace(/_/g,' ')}:</strong> ${value}<br>`;
+        }
+    });
+    confirmDiv.innerHTML = html;
+}
+
+
+showStep(currentStep);
+</script>
+
+</body>
+</html>

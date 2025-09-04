@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #2c3e50;
+      color: #fff;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    header a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      width: 250px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card i {
+      font-size: 40px;
+      color: #e74c3c;
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 10px 0 5px;
+    }
+    .card p {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+{% include 'User/header.html' %}
+<header>
+ 
+  <h2 class="text-danger">YOUR DASHBOARD</h2>
+  <br>
+  
+
+<div class="cards">
+  <div class="card">
+    <i class="fas fa-truck"></i>
+    <h3>Track Package</h3>
+    <p>Check the status of your deliveries</p>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-box"></i>
+    <h3>Recent Orders</h3>
+    <p>View your last 5 deliveries</p>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-bell"></i>
+    <h3>Notifications</h3>
+    <p>Get updates about your shipments</p>
+  </div>
+
+  <div class="card">
+    <i class="fas fa-user"></i>
+    <h3>Profile</h3>
+    <p>Edit your personal information</p>
+  </div>
+
+ <div class="card" onclick="window.location.href='{{ url_for('book_shipment') }}'">
+  <i class="fas fa-plus-circle"></i>
+  <h3>Request Pickup</h3>
+  <p>Schedule a package pickup quickly</p>
+</div>
+
+</div>
+<a href="{{ url_for('logout') }}">Logout <i class="fas fa-sign-out-alt"></i></a>
+
+</header>
+</body>
+</html>
+{% include 'User/footer.html' %}

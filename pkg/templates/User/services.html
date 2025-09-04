@@ -1,303 +1,457 @@
-{% include 'User/header.html' %}
+{%include 'User/header.html'%}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OMAK Logistics — OMAK Multi Concept LTD</title>
+  <meta name="description" content="OMAK Logistics — Intercontinental & Interstate Logistics, Cargo & State Riders Delivery" />
+ <style>
+  /* Footer Menu */
+.footer-menu {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  background-color: #111;
+  flex-wrap: wrap;
+}
+.menu-item {
+  flex: 1;
+  text-align: center;
+  padding: 15px 10px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+.menu-item i {
+  font-size: 20px;
+  color: red;
+  display: block;
+  margin-bottom: 8px;
+}
+.menu-item span {
+  font-size: 14px;
+  display: block;
+}
+.menu-item:hover {
+  background-color: #fff;
+  color: red;
+}
+.menu-item:hover i {
+  color: red;
+}
+.menu-item.active {
+  background-color: red;
+  color: #fff;
+}
+.menu-item.active i {
+  color: #fff;
+}
 
-<!-- Hero Section -->
-<div class="container-fluid mt-5" style="background-image: linear-gradient(to bottom, #3498db, #2ecc71); padding: 100px; color: #fff; text-align: center; animation: fadeIn 2s;">
-    <h1>Our Services</h1>
-    <p>Discover the range of services we offer</p>
-</div>
+/* Base Reset */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #082027;
+}
+a { color: inherit; text-decoration: none; }
+.card-body {
+  padding: 12px 14px; /* less padding */
+}
 
+.card-title {
+  font-size: 1rem; /* smaller title */
+  margin-bottom: 6px;
+}
 
+.card-text {
+  font-size: 0.85rem; /* smaller description */
+  line-height: 1.3;
+}
+.card-img-top {
+  height: 150px;   /* fixed image height */
+  object-fit: cover;
+}
 
+/* Navigation */
+header.nav {
+  background: #fff;
+  padding: 18px 18px;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  backdrop-filter: blur(6px);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.nav-links {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.nav-links a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.nav-links a.cta {
+  background: var(--brand);
+  color: #fff;
+}
 
-<!-- Surveying Section -->
-<div class="container mt-5">
-    <h2 class="text-center" style="margin-bottom: 50px;">Surveying Services</h2>
-    <div class="row">
-        {% for s in services %}
-        {% if s.category.name == 'Surveying Services' %}
-        <div class="col-md-6  mb-4">
-            <div class="card service-card" data-bs-toggle="modal" 
-            data-bs-target="#serviceModal{{ s.id }}" 
-            style="border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); transition: transform 0.2s; animation: slideIn 1s;">
-                <div class="card-body">
-                    <h3 class="card-title">{{ s.name }}</h3>
-                    <p class="card-text">Category: {{ s.category.name }}</p>
-                </div>
-            </div>
-            <!-- Modal -->
-            <div class="modal fade" id="serviceModal{{ s.id }}" tabindex="-1" aria-labelledby="serviceModalLabel{{ s.id }}" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="serviceModalLabel{{ s.id }}">{{ s.name }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    {% if s.image.endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp')) %}
-                                    <img src="{{ url_for('static', filename='images/' + s.image) }}" 
-                                    alt="Service Image" class="img-fluid" width="300px">
-                                    {% else %}
-                                    <p>No image available or file type not supported.</p>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-12">
-                                    <h1 class="alert alert-success">Price: ₦
-                                        {{ "{:,.2f}".format(s.price) }} - {{ "{:,.2f}".format(s.maxprice) }}</h1>
-                                    <div style="white-space: pre-wrap;">
-                                        <h4 class="alert alert-success">Description:  {{ s.description }} </h4>
-                                    </div>
-                               
-                                    <h2 class="alert alert-success">Category: {% if s.category %} {{ s.category.name }} {% else %} Surveying services {% endif %} </h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="{{ url_for('handle_form_submission', service_id=s.id) }}" class="btn btn-success">Book Now</a>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-</div>
+/* Layout & Containers */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+section {
+  padding: 28px 0;
+}
 
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 26px;
+  align-items: start;
+  padding: 48px 0;
+}
+.hero-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid #e6f0ec;
+}
+h1 {
+  font-size: 2.1rem;
+  margin: 0 0 8px;
+}
+p.lead {
+  color: var(--muted);
+  margin: 0 0 16px;
+}
 
-<!-- Engineering Section -->
-<div class="container mt-5">
-    <h2 class="text-center" style="margin-bottom: 50px;">Engineering Services</h2>
-    <div class="row">
-        {% for s in services %}
-        {% if s.category.name == 'Engineering Services' %}
-        <div class="col-md-6 mb-4">
-            <div class="card service-card" data-bs-toggle="modal" data-bs-target="#serviceModal{{ s.id }}" style="border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); transition: transform 0.2s; animation: slideIn 1s;">
-                <div class="card-body">
-                    <h3 class="card-title">{{ s.name }}</h3>
-                    <p class="card-text">Category: {{ s.category.name }}</p>
-                </div>
-            </div>
-            <!-- Modal -->
-            <div class="modal fade" id="serviceModal{{ s.id }}" tabindex="-1" aria-labelledby="serviceModalLabel{{ s.id }}" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="serviceModalLabel{{ s.id }}">{{ s.name }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    {% if s.image.endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp')) %}
-                                    <img src="{{ url_for('static', filename='images/' + s.image) }}"
-                                     alt="Service Image" class="img-fluid" width="300px">
-                                    {% else %}
-                                    <p>No image available or file type not supported.</p>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-12">
-                                    <h3  class="alert alert-success">Price: ₦ {{ "{:,.2f}".format(s.price) }} - {{ "{:,.2f}".format(s.maxprice) }}</h3>
-                                    
-                                    <div style="white-space: pre-wrap;">
-                                        <h4 class="alert alert-success">Description:  {{ s.description }} </h4>
-                                    </div>
-                                    <p class="alert alert-success">Category: {% if s.category %} {{ s.category.name }} {% else %} Engineering services {% endif %} </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="{{ url_for('handle_form_submission', service_id=s.id) }}" class="btn btn-success">Book Now</a>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        {% endfor %}
-    </div>
-</div>
+/* Forms & Buttons */
+.track-inline {
+  display: flex;
+  gap: 10px;
+}
+.input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e6f0ec;
+  outline: none;
+  font-size: 15px;
+}
 
+/* Cards & Grids */
+.actions-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+.action-card {
+  background: var(--card);
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #e6f0ec;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow);
+}
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.services { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; padding: 28px 0; }
+.service {
+  background: var(--card);
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #e6f0ec;
+  box-shadow: var(--shadow);
+}
+.subtle { color: var(--muted); font-size: 0.98rem; }
 
+/* Footer */
+footer {
+  background: #02221a;
+  color: #bfead0;
+  padding: 30px 20px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
 
+/* Responsive */
+@media (max-width: 1000px) {
+  .hero { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+}
+@media (max-width: 640px) {
+  .services { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+}
 
-<!-- Testimonials Section -->
-<div class="container mt-5">
-  <h2 class="text-center" style="margin-bottom: 50px;">What Our Clients Say</h2>
-  <div class="row">
-     
+/* Carousel */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  height: 500px;
+}
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: left 0.8s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 80px;
+}
+.carousel-slide.active { left: 0; }
+.carousel-slide.prev { left: -100%; }
+.carousel-slide::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+}
+.carousel-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: flex-end;
+  padding: 40px;
+  text-align: right;
+  color: #fff;
+}
+.carousel-overlay .content {
+  max-width: 500px;
+}
+.carousel-overlay h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.carousel-overlay p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+.carousel-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+.carousel-controls button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.carousel-controls button.active {
+  background: var(--accent);
+}
+.carousel-item img {
+  object-fit: cover;
+  height: 500px;
+  width: 100%;
+  border-radius: 10px;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 100% 100%;
+  filter: invert(1);
+}
+ .hero {
+      background: url('/static/images/interstate.jpg') center/cover no-repeat;
+      color: #fff;
+      padding: 20px 20px;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+    }
+    .hero > * { position: relative; z-index: 2; }
+
+    .stats-box {
+      background: #f8f9fa;
+      border-radius: 10px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .divider {
+      width: 80px;
+      height: 3px;
+      background: red;
+      margin: 10px auto 20px;
+    }
+
+    .competency-icon {
+      font-size: 2rem;
+      color: red;
+      margin-bottom: 10px;
+    }
+
+    .values .icon {
+      font-size: 2rem;
+      color: red;
+      display: block;
+      margin-bottom: 5px;
+    }
+
     
-     
-        <div class="carousel-inner">
-            {% for i in range(0, testimonials|length, 3) %}
-              <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
-                <div class="row ms-5">
-                  {% for testimonial in testimonials[i:i+3] %}
-                    <div class="col-md-4">
-                      <div class="card testimonial-card p-3 shadow-sm">
-                        <div class="card-body">
-                          <p class="testimonial-quote">"{{ testimonial.quote }}"</p>
-                          <p class="testimonial-rating">
-                            {% for j in range(1, testimonial.rating + 1) %}
-                              <i class="fa fa-star" style="color: #ffd700;"></i>
-                            {% endfor %}
-                            {% for j in range(testimonial.rating + 1, 6) %}
-                              <i class="fa fa-star" style="color: #ccc;"></i>
-                            {% endfor %}
-                          </p>
-                          <p class="testimonial-author text-muted">- {{ testimonial.author }}</p>
-                        </div>
-                      </div>
-                    </div>
-                  {% endfor %}
-                </div>
-              </div>
-            {% endfor %}
-        
-          
+    .text{
+      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+  .service-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.15);
+  }
+
+ </style>
+</head>
+
+<body>
+
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="inner">
+      <h1>Our Services</h1>
+      <p class="lead tagline">Home|Our Services</p>
+    </div>
+  </section>
+
+  <!-- services.html -->
+<div class="container py-5">
+  
+  <p class="text-center mb-5 text-muted">
+    We provide a wide range of logistics solutions across states, borders, and continents. 
+    Explore our services below.
+  </p>
+
+  <div class="row g-4">
+    <!-- Service 1 -->
+    <div class="col-md-6 col-lg-3">
+      <div class="card shadow-sm border-0 service-card">
+        <img src="/static/images/state.jpg" class="card-img-top" alt="State Riders Delivery">
+        <div class="card-body">
+          <h5 class="card-title fw-bold">State Riders Delivery</h5>
+          <p class="card-text text-muted">
+            Fast, reliable deliveries within your state using professional riders who 
+            guarantee timely drop-offs.
+          </p>
+        </div>
       </div>
-     
+    </div>
+
+    <!-- Service 2 -->
+    <div class="col-md-6 col-lg-3">
+      <div class="card h-100 shadow-sm border-0 service-card">
+        <img src="/static/images/interstate.jpg" class="card-img-top" alt="Interstate Logistics">
+        <div class="card-body">
+          <h5 class="card-title fw-bold">Interstate Logistics</h5>
+          <p class="card-text text-muted">
+            Seamless cargo movement between states with trusted routes and secure handling.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Service 3 -->
+    <div class="col-md-6 col-lg-3">
+      <div class="card h-100 shadow-sm border-0 service-card">
+        <img src="/static/images/intercontinental.jpeg" class="card-img-top" alt="Intercontinental Logistics">
+        <div class="card-body">
+          <h5 class="card-title fw-bold">Intercontinental Logistics</h5>
+          <p class="card-text text-muted">
+            Connecting businesses globally through efficient shipping and international partnerships.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Service 4 -->
+    <div class="col-md-6 col-lg-3">
+      <div class="card h-100 shadow-sm border-0 service-card">
+        <img src="/static/images/cargo.jpg" class="card-img-top" alt="Cargo Delivery">
+        <div class="card-body">
+          <h5 class="card-title fw-bold">Cargo Delivery</h5>
+          <p class="card-text text-muted">
+            Heavy-duty cargo solutions tailored to bulk shipments with door-to-door tracking.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-
-
-<!-- Service Comparison Table -->
-<div class="container mt-5">
-    <h2 class="text-center" style="margin-bottom: 50px;">Service Comparison</h2>
-    <table class="table table-striped">
-    <thead>
-    <tr>
-    <th>Service</th>
-    <th>Features</th>
-    <th>Pricing</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-    <td>Land Surveying</td>
-    <td>
-    <ul>
-    <li>Accurate boundary determination</li>
-    <li>Detailed topographic mapping</li>
-    <li>Identification of potential site issues</li>
-    </ul>
-    </td>
-    <td>₦500,000 - ₦1,500,000</td>
-    </tr>
-    <tr>
-        <tr>
-            <td>MPower Inverters</td>
-            <td>
-            <ul>
-            <li>Reliable power backup solutions</li>
-            <li>High-quality inverters for homes and businesses</li>
-            <li>Energy efficiency and cost savings</li>
-            </ul>
-            </td>
-            <td>Custom pricing (dependent on inverter capacity and installation requirements) <br> Price range:₦ 153,000.00 - 1,587,000.00
-            </td>
-    </tr>
-    <tr>
-    <td>Registered Surveyors</td>
-    <td>
-    <ul>
-    <li>Expert advice on property boundaries and measurements</li>
-    <li>Preparation of survey reports and plans</li>
-    <li>Dispute resolution and expert testimony</li>
-    </ul>
-    </td>
-    <td>₦500,000 - ₦10,000,000</td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-
-
-
-
-<!-- FAQs Section -->
-<div class="container mt-5">
-    <h2 class="text-center" style="margin-bottom: 50px;">Frequently Asked Questions</h2>
-    <div class="accordion" id="accordionExample">
-    <div class="accordion-item">
-    <h2 class="accordion-header" id="headingOne">
-    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-    What is land surveying, and why is it important?
-    </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-    <div class="alert alert-success accordion-body">
-    Land surveying is the process of determining property boundaries, mapping topography, and identifying potential site issues. It's essential for construction, development, and property ownership.
-    </div>
-    </div>
-    </div>
-    <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-    What services do registered surveyors offer?
-    </button>
-    </h2>
-    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-    <div class="alert alert-success accordion-body">
-    Registered surveyors provide expert advice on property boundaries, prepare survey reports and plans, and offer dispute resolution and expert testimony services.
-    </div>
-    </div>
-    </div>
-    <div class="accordion-item">
-    <h2 class="accordion-header" id="headingThree">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-    How accurate are surveying services?
-    </button>
-    </h2>
-    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-    <div class="alert alert-success accordion-body">
-    Our surveying services are highly accurate, utilizing advanced technology and expertise to ensure precise measurements and mapping.
-    </div>
-    </div>
-    </div>
-    <div class="accordion-item">
-    <h2 class="accordion-header" id="headingFour">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-    What is the process of conducting a land survey?
-    </button>
-    </h2>
-    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-    <div class="alert alert-success accordion-body">
-    Our land survey process involves site assessment, data collection, mapping, and reporting, ensuring accurate and reliable results.
-    </div>
-    </div>
-    </div>
-    <div class="accordion-item">
-    <h2 class="accordion-header" id="headingFive">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-    Why do I need a registered surveyor for my property?
-    </button>
-    </h2>
-    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-    <div class="alert alert-success accordion-body">
-    A registered surveyor ensures that your property boundaries are accurately determined, reducing potential disputes and providing expert advice.
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    
-
-
-<!-- Call-to-Action Section -->
-<div class="container mt-5" style="background-color: #3498db; padding: 50px; color: #fff; text-align: center;">
-  <h2>Get in Touch</h2>
-  <p>Contact us to learn more about our services and sales.</p>
-  <a href="#footer" style="color: #fff; font-size: 24px;">
-      <i class="fa fa-arrow-down"></i>
-  </a>
-</div>
-
-
-
-
+ 
 {% include 'User/footer.html' %}
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Animated Counter Script -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const counters = document.querySelectorAll('.counter');
+  const speed = 200; // Lower = faster
+
+  counters.forEach(counter => {
+    const updateCount = () => {
+      const target = +counter.getAttribute('data-target');
+      const count = +counter.innerText;
+      const increment = target / speed;
+
+      if (count < target) {
+        counter.innerText = Math.ceil(count + increment);
+        setTimeout(updateCount, 20);
+      } else {
+        counter.innerText = target.toLocaleString();
+      }
+    };
+    updateCount();
+  });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

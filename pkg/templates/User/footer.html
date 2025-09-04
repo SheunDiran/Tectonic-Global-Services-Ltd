@@ -1,53 +1,141 @@
 <!-- Footer -->
-<footer class="footer mt-5" style="background-color: green; color: #fff; padding: 50px 0;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-              
-                <h5>Contact Us</h5>
-                <p><i class="fa fa-map-marker"></i> Alausa, Ikeja, Nigeria</p>
-                <p><i class="fa fa-phone"></i> Surveyor: <a href="tel:+2348033169435" style="color: #fff;">+234-803-316-9435</a></p>
-                <p><i class="fa fa-phone"></i> Engineer: <a href="tel:+2348033582902" style="color: #fff;">+234-803-358-2902</a></p>
-                <p><i class="fa fa-envelope"></i> <a href="mailto:tectonicglobalservices@gmail.com" style="color: #fff;">tectonicglobalservices@gmail.com</a></p>
-                <p><i class="fa fa-envelope"></i> <a href="mailto:bimbo.oyediran@yahoo.com" style="color: #fff;">bimbo.oyediran@yahoo.com</a></p>
-            </div>
-            <div class="col-md-4">
-                <h5>Navigation</h5>
-                <ul style="list-style: none; padding: 0;">
-                    <li><a href="/home/" style="color: #fff;">Home</a></li>
-                    <li><a href="/about/" style="color: #fff;">About</a></li>
-                    <li><a href="/service/" style="color: #fff;">Services</a></li>
-                    <li><a href="/form/" style="color: #fff;">Book</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4">
-                <h5>About Us</h5>
-                <p>Tectonic Global Services Limited is a leading provider of surveying services.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7926.403940077952!2d3.355974585325039!3d6.621815130801109!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b93b830dcf4e3%3A0x695fda95d3d78e4a!2sAlausa%2C%20Ojodu%20101233%2C%20Lagos!5e0!3m2!1sen!2sng!4v1746057595693!5m2!1sen!2sng" 
-                width="400" height="300" style="border:0;" allowfullscreen=""
-                 loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+<style>
+   .footer-menu {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    background-color: #111;
+    flex-wrap: wrap; /* responsive */
+  }
+  .menu-item {
+    flex: 1;
+    text-align: center;
+    padding: 15px 10px;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.3s ease;
+    min-width: 100px;
+  }
+  .menu-item i {
+    font-size: 20px;
+    color: red;
+    display: block;
+    margin-bottom: 8px;
+  }
+  .menu-item span { font-size: 14px; display: block; }
+  .menu-item:hover { background-color: #fff; color: red; }
+  .menu-item:hover i { color: red; }
+  .menu-item.active { background-color: red; color: #fff; }
+  .menu-item.active i { color: #fff; }
 
-               
-            </div>
-            <div class="col-md-12 text-center">
-               
+  /* Footer */
+  .site-footer {
+    background-color: #111;
+    color: #fff;
+    padding: 15px 20px;
+    font-size: 14px;
+  }
+  .site-footer .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .site-footer a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .site-footer a:hover { color: red; }
 
-                <p>&copy; 2007 Tectonic Global Services Limited. All rights reserved.</p>
-            </div>
-        </div>
-    </div>
-</footer>
+  /* Back-to-Top Button */
+  .back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: red;
+    color: #fff;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background 0.3s ease;
+    z-index: 999;
+  }
+  .back-to-top:hover { background: #b30000; }
+  .back-to-top i { font-size: 20px; }
 
-<!-- Marquee Section -->
-<div style="background-color: rgba(0, 179, 255, 0.986); color: #fff; padding: 10px 0; text-align: center;">
-    <marquee>TECTONIC GLOBAL SERVICES OFFERS THE BEST SURVEYING SERVICES!!</marquee>
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer-menu { flex-wrap: wrap; }
+    .menu-item { flex: 1 1 50%; } /* two per row */
+  }
+  @media (max-width: 480px) {
+    .menu-item { flex: 1 1 100%; } /* one per row */
+  
+  
+}
+</style>
+<div class="footer-menu">
+  <a href="#" class="menu-item active">
+    <i class="fas fa-shipping-fast"></i>
+    <span>Track Your Shipment</span>
+  </a>
+  <a href="#" class="menu-item">
+    <i class="fas fa-map-marker-alt"></i>
+    <span>Find a Location</span>
+  </a>
+  <a href="#" class="menu-item">
+    <i class="fas fa-truck"></i>
+    <span>Ship Now</span>
+  </a>
+  <a href="#" class="menu-item">
+    <i class="fas fa-user-plus"></i>
+    <span>Open an Account</span>
+  </a>
+  <a href="#" class="menu-item">
+    <i class="fas fa-user"></i>
+    <span>Login</span>
+  </a>
 </div>
 
+
+
+<footer class="site-footer bg-light text-dark">
+  <div class="container">
+    <div class="footer-left ">
+      Copyright © <span id="year"></span> OMAK Multi Concept LTD | All rights reserved.
+    
+      <a href="#" class="text-danger">Terms of Use | Privacy Policy</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Back to Top Button -->
+<div class="back-to-top" id="backToTop">
+  <i class="fas fa-arrow-up"></i>
+</div>
+
+<script>
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Back to Top
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backToTop.style.display = window.scrollY > 200 ? 'flex' : 'none';
+  });
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
-<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
 </html>
 

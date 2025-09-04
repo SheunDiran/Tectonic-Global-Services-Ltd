@@ -1,50 +1,386 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="/static/index.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Tectonic - {{ title }}</title>
-</head>
-<body >
-  <nav class="navbar navbar-expand-lg bg-light  p-0" id="navigation">
-    <div class="container-fluid first ">
-      <a class="navbar-brand " href="/home/"><h4 class="text-dark p-2">Tec<span class="text-light" >to</span>nic</h4></a>
-      <h3 class="text-success  ">TECTONIC GLOBAL SERVICES LIMITED </h3>
-      <h5 class="text-danger m-md-3"><a href="/service/">LAND AND MARINE SURVEY SOLUTIONS</a></h5>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/index.css">
+  <title>OMAK Logistics — OMAK Multi Concept LTD - {{ title }}</title>
 
+  <style>
+    nav {
+      font-size: larger;
+      padding: 5px 0px;
+      font-weight: 200px;
+      
+    }
+
+  /* Reset nav list */
+.nav-list {
+  
+  display: flex;
+  gap: 0px;           /* reduce space between items */
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+
+    .nav-item {
+      position: relative;
+    }
+
+   .nav-link {
+  font-size: 18px;        /* ✅ slightly bigger than 15px */
+  font-weight: 400;       /* ✅ semi-bold (not too heavy) */
+  color: #082027;
+  text-decoration: none;
+  padding:  4px;      /* ✅ a little more breathing room */
+  border-radius: 4px;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;  /* ✅ small spacing for neatness */
+}
+
+.nav-link:hover {
+  color: red;
+  font-weight: 600;       /* ✅ bold on hover */
+}
+
+
+    /* Dropdown Menu */
+   .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 30px;
+  padding-left: 0px;
+  margin-left: 0px;
+  min-width: 1000px; /* wider card */
+  display: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.dropdown-menu ul li a {
+  display: block;
+  padding: 8px 12px;
+  color: #082027;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.dropdown-menu ul li a:hover {
+  background: #f8f9fa;
+  color: red;
+}
+
+.nav-item:hover .dropdown-menu {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+   
+
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:var(--bg);
+      color:#fff;
+    }
+    a{text-decoration:none;color:inherit}
+
+    /* ✅ Fixed Topbar background */
+    .topbar {
+      min-height: 50px;
+      background-color: #000; 
+      color: white;
+      padding: 6px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 15px;
+      border-top: 2px solid red;
+    }
+
+    .topbar .container{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      width:100%;
+    }
+    .topbar  a:hover  {
+      color:red;
+    }
+
+    /* Subsidiaries links */
+    .subs-list{display:flex;gap:14px;}
+    .subs-list a{
+      font-weight:600;
+      color:var(--muted);
+      transition:0.3s;
+    }
+    .subs-list a:hover{
+      color:var(--brand);
+    }
+
+    /* Contact Icons */
+    .contact-icons {
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    /* Contact Icons - Blue */
+.contact-icons a {
+  font-size: 17px;
+  color: #007bff;   /* ✅ bootstrap blue */
+  transition: 0.3s;
+}
+.contact-icons a:hover {
+  color: red;       /* or keep blue-dark */
+}
+
+/* Location Selector - Blue */
+.location-selector select {
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid #007bff;
+  font-size: 16px;
+  background: #fff;   /* white dropdown background */
+  color: #007bff;     /* blue text */
+}
+
+    
+  </style>
+  
+</head>
+<body>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show mt-2" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Topbar (tiny header) -->
+<div class="topbar">
+  <div class="container d-flex align-items-center justify-content-between">
+
+    <!-- Links -->
+    <div class="top-links">
+      <a href="#">Omak Express 🔹</a>
+      <a href="#">Omak Logistics 🔹</a>
+      <a href="#">Omak Freight 🔹</a>
+      <a href="#">Omak Support Services 🔹</a>
+    </div>
+
+    <!-- Contact + Location -->
+    <div class="quick-actions d-flex align-items-center">
+      <div class="contact-icons me-3">
+        <a href="tel:+2348069361287" title="Call OMAK"><i class="fas fa-phone"></i></a>
+        <a href="mailto:omakmult7@gmail.com" title="Email OMAK"><i class="fas fa-envelope"></i></a>
+        <a href="https://wa.me/2348069361287" target="_blank" title="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+      </div>
+
+      <div class="location-selector">
+        <select id="country" name="country">
+          <option value="">Choose Location</option>
+          <option value="nigeria">Nigeria</option>
+          <option value="niger">Niger</option>
+          <option value="benin">Benin</option>
+        </select>
       </div>
     </div>
-  </nav>
 
-      <!-- navigation bar --> 
-     <nav class="navbar navbar-expand-lg bg-success   p-0" id="navi">
-        <div class="container-fluid menu">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse " id="navbarSupportedContent" >
-            <ul class="navbar-nav ms-auto  mb-lg-0 me-2">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/home/">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/about/">About</a>
-              </li>
-             
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/service/">Services</a>
-              </li>
-              <button class="btn btn-dark m-2 " type="submit"><a href="/form/" 
-                style="text-decoration: none;color: white;">Let's Talk</a></button>
-    
+  </div>
+</div>
+
+<style>
+/* Base Topbar */
+.topbar {
+  background: #222;
+  color: white;
+  font-size: 14px;
+  padding: 5px 0;
+}
+.topbar a {
+  color: white;
+  margin-right: 15px;
+  text-decoration: none;
+}
+.topbar a:hover {
+  text-decoration: underline;
+}
+.topbar select {
+  padding: 2px 6px;
+}
+
+/* Mobile view: show only the select dropdown */
+@media (max-width: 768px) {
+  .top-links,
+  .contact-icons {
+    display: none; /* hide links + icons */
+  }
+  .location-selector {
+    margin: 0;
+  }
+  .container {
+    justify-content: flex-start !important; /* push dropdown left */
+  }
+}
+</style>
+
+  
+
+
+ <!-- Main Header -->
+<header class="navbar navbar-expand-lg bg-white shadow-sm">
+  <div class="container d-flex align-items-center justify-content-between">
+
+    <!-- Logo -->
+    <a href="/" class="navbar-brand fw-bold text-danger" style="font-size: 22px;">
+      Omak Multi Concept Ltd
+    </a>
+
+    <!-- Hamburger (appears on mobile) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+      aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navigation -->
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto" style="gap: 20px;">
+
+        <!-- About Us -->
+        <li class="nav-item dropdown position-static">
+          <a class="nav-link dropdown-toggle" href="/about/" data-bs-toggle="dropdown">ABOUT US</a>
+          <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-4">
+            <div class="row">
+              <div class="col-md-5">
+                <img src="/static/images/oma.jpeg" class="img-fluid rounded" style="max-height:250px;" alt="Omak">
+              </div>
+              <div class="col-md-3">
+                <h6 class="fw-bold border-bottom border-danger">ABOUT OMAK MULTI</h6>
+                <a class="dropdown-item" href="/about/">ABOUT OMAK</a>
+                <a class="dropdown-item" href="#">Corporate Profile</a>
+                <a class="dropdown-item" href="#">Services</a>
+              </div>
+              <div class="col-md-3">
+                <h6 class="fw-bold border-bottom border-danger">Services</h6>
+                <a class="dropdown-item" href="#">OMAC Logistics</a>
+                <a class="dropdown-item" href="#">OMAC Flight</a>
+              </div>
+            </div>
           </div>
-        </div>
-      </nav> 
+        </li>
+
+        <!-- Services -->
+        <li class="nav-item dropdown position-static">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">SERVICES</a>
+          <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-4">
+            <div class="row text-center">
+              <div class="col-md-3">
+                <a href="/services" class="text-decoration-none">
+                  <img src="/static/images/state.jpg" class="img-fluid rounded mb-2" style="height:160px;object-fit:cover;">
+                  <h6 class="fw-bold">STATE RIDERS DELIVERY</h6>
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="/services" class="text-decoration-none">
+                  <img src="/static/images/interstate.jpg" class="img-fluid rounded mb-2" style="height:160px;object-fit:cover;">
+                  <h6 class="fw-bold">INTERSTATE LOGISTICS</h6>
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="/services" class="text-decoration-none">
+                  <img src="/static/images/intercontinental.jpeg" class="img-fluid rounded mb-2" style="height:160px;object-fit:cover;">
+                  <h6 class="fw-bold">INTERCONTINENTAL LOGISTICS</h6>
+                </a>
+              </div>
+              <div class="col-md-3">
+                <a href="/services" class="text-decoration-none">
+                  <img src="/static/images/cargo.jpg" class="img-fluid rounded mb-2" style="height:160px;object-fit:cover;">
+                  <h6 class="fw-bold">CARGO DELIVERY</h6>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Investor Relations -->
+        <li class="nav-item dropdown position-static">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">INVESTOR RELATIONS</a>
+          <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-4">
+            <div class="row">
+              <div class="col-md-5">
+                <img src="/static/images/oma.jpeg" class="img-fluid rounded" style="max-height:250px;" alt="Omak">
+              </div>
+              <div class="col-md-3">
+                <h6 class="fw-bold border-bottom border-danger">ABOUT OMAK MULTI</h6>
+                <a class="dropdown-item" href="#">Corporate Profile</a>
+                <a class="dropdown-item" href="#">Board of Directors</a>
+              </div>
+              <div class="col-md-3">
+                <h6 class="fw-bold border-bottom border-danger">Services</h6>
+                <a class="dropdown-item" href="#">OMAC Logistics</a>
+                <a class="dropdown-item" href="#">OMAC Flight</a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <!-- Quick Service -->
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link d-flex align-items-center quick-search-toggle" data-bs-toggle="dropdown">
+            <i class="fas fa-search me-2 text-dark"></i>
+            <i class="fas fa-bars me-2 text-danger"></i>
+            <span class="text-danger fw-bold">QUICK SERVICE</span>
+          </a>
+          <div class="dropdown-menu p-3 quick-search-menu bg-danger">
+            <div class="mb-3">
+              <h6 class="text-white mb-2">Track Domestic Shipments</h6>
+              <form class="d-flex">
+                <input type="text" class="form-control me-2" placeholder="Enter tracking number">
+              </form>
+              <button class="btn btn-dark btn-sm mt-2">Track</button>
+            </div>
+            <ul class="list-unstyled mb-3">
+              <li><a class="dropdown-item text-white" href="#">Track International Shipments</a></li>
+              <li><a class="dropdown-item text-white" href="#">Find A Location</a></li>
+              <li><a class="dropdown-item text-white" href="#">SME 1000</a></li>
+              <li><a class="dropdown-item text-white" href="#">Check Warehouse Status</a></li>
+              <li><a class="dropdown-item text-white" href="#">Ship Now</a></li>
+              <li><a class="dropdown-item text-white" href="#">Contact Us</a></li>
+            </ul>
+            <div class="d-flex gap-2">
+              <a href="{{ url_for('auth') }}" class="btn btn-danger btn-sm">LOGIN</a>
+              <a href="{{ url_for('auth') }}" class="btn btn-outline-light btn-sm">OPEN ACCOUNT</a>
+            </div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</header>
+
+
+
+
+
+
+<script src="/static/bootstrap/js/bootstrap.bundle.js"></script>
+</body>
+</html>  

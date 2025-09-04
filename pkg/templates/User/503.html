@@ -1,14 +1,309 @@
 {%include 'User/header.html'%}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-    <h2> We are currently under maintenance</h2>
-    <p>Be rest assured,we will serve you better</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>OMAK Logistics — OMAK Multi Concept LTD</title>
+  <meta name="description" content="OMAK Logistics — Intercontinental & Interstate Logistics, Cargo & State Riders Delivery" />
+ <style>
+  /* Footer Menu */
+
+.menu-item {
+  flex: 1;
+  text-align: center;
+  padding: 15px 10px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+.menu-item i {
+  font-size: 20px;
+  color: red;
+  display: block;
+  margin-bottom: 8px;
+}
+.menu-item span {
+  font-size: 14px;
+  display: block;
+}
+.menu-item:hover {
+  background-color: #fff;
+  color: red;
+}
+.menu-item:hover i {
+  color: red;
+}
+.menu-item.active {
+  background-color: red;
+  color: #fff;
+}
+.menu-item.active i {
+  color: #fff;
+}
+
+/* Base Reset */
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #082027;
+}
+a { color: inherit; text-decoration: none; }
+
+/* Navigation */
+header.nav {
+  background: #fff;
+  padding: 18px 18px;
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  backdrop-filter: blur(6px);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.nav-links {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.nav-links a {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.nav-links a.cta {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* Layout & Containers */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+section {
+  padding: 28px 0;
+}
+
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 26px;
+  align-items: start;
+  padding: 48px 0;
+}
+.hero-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid #e6f0ec;
+}
+h1 {
+  font-size: 2.1rem;
+  margin: 0 0 8px;
+}
+p.lead {
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+/* Forms & Buttons */
+.track-inline {
+  display: flex;
+  gap: 10px;
+}
+.input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e6f0ec;
+  outline: none;
+  font-size: 15px;
+}
+
+/* Cards & Grids */
+.actions-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+.action-card {
+  background: var(--card);
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #e6f0ec;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: var(--shadow);
+}
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.services { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; padding: 28px 0; }
+.service {
+  background: var(--card);
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #e6f0ec;
+  box-shadow: var(--shadow);
+}
+.subtle { color: var(--muted); font-size: 0.98rem; }
+
+
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .hero { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+}
+@media (max-width: 640px) {
+  .services { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  overflow: hidden;
+  height: 500px;
+}
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: left 0.8s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 80px;
+}
+.carousel-slide.active { left: 0; }
+.carousel-slide.prev { left: -100%; }
+.carousel-slide::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+}
+.carousel-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: flex-end;
+  padding: 40px;
+  text-align: right;
+  color: #fff;
+}
+.carousel-overlay .content {
+  max-width: 500px;
+}
+.carousel-overlay h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.carousel-overlay p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+.carousel-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+.carousel-controls button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.6);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.carousel-controls button.active {
+  background: var(--accent);
+}
+.carousel-item img {
+  object-fit: cover;
+  height: 500px;
+  width: 100%;
+  border-radius: 10px;
+}
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-size: 100% 100%;
+  filter: invert(1);
+}
+    body {
+     background: #d44a39; /* reddish background */
+      justify-content: center;
+      align-items: center;
+     
+    }
+    .error-container {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    h1 {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #d32f2f;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    .btn-home {
+      background: #d32f2f;
+      color: #fff;
+      padding: 12px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+    .btn-home:hover {
+      background: #b71c1c;
+    }
+  </style>
+</head>
+<body>
+  <div class="error-container">
+   <h1 class="text-success">503</h1>
+    <h2>We are currently under maintenance</h2>
+    <p>Our system is being upgraded to deliver even faster and safer logistics services. Please check back shortly!</p>
     <span>{{error}}</span>
-        </div>
-    </div>
-</div>
-
-
-
-{%include 'User/footer.html'%}
+    <br><br>
+    <a href="/" class="btn-home">Back to Main Warehouse</a>
+  </div>
+{% include 'User/footer.html' %}
+</body>
+</html>

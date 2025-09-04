@@ -3,55 +3,56 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-class Admin(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False, unique=True)
-    password = db.Column(db.String(255), nullable=False)
+
 
 class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False, unique=True)
-    phone_number = db.Column(db.String(20), nullable=False)
-
-class Service(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    image = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    maxprice = db.Column(db.Float, nullable=False)
-    description = db.Column(db.Text, nullable=False)
-    category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-    category = db.relationship('Category', backref=db.backref('services', lazy=True))
-
-
-class Category(db.Model):
+    fullname = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    phone = db.Column(db.String(20))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+class Shipment(db.Model):
+    __tablename__ = 'shipments'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False, unique=True)
-    
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    # Sender Info
+    sender_name = db.Column(db.String(150), nullable=False)
+    sender_phone = db.Column(db.String(20), nullable=False)
+    sender_email = db.Column(db.String(150), nullable=False)
+    sender_address = db.Column(db.String(255), nullable=False)
+    sender_city = db.Column(db.String(100))
+    sender_state = db.Column(db.Integer, db.ForeignKey('state.state_id'))
+    sender_lga = db.Column(db.Integer, db.ForeignKey('lga.lga_id'))
+
+    # Receiver Info
+    receiver_name = db.Column(db.String(150), nullable=False)
+    receiver_phone = db.Column(db.String(20), nullable=False)
+    receiver_email = db.Column(db.String(150))
+    receiver_address = db.Column(db.String(255), nullable=False)
+    receiver_city = db.Column(db.String(100))
+    receiver_state = db.Column(db.Integer, db.ForeignKey('state.state_id'))
+    receiver_lga = db.Column(db.Integer, db.ForeignKey('lga.lga_id'))
+
+    # Package Info
+    package_type = db.Column(db.String(50), nullable=False)
+    weight = db.Column(db.Float, nullable=False)
+    pickup_date = db.Column(db.Date, nullable=False)
+    delivery_date = db.Column(db.Date)  # optional for future use
+    notes = db.Column(db.Text)
+    voucher_code = db.Column(db.String(50))
+    status = db.Column(db.String(50), default='Pending')
+
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user = db.relationship("Users", backref="shipments")
+    sender_state_rel = db.relationship("State", foreign_keys=[sender_state])
+    sender_lga_rel = db.relationship("Lga", foreign_keys=[sender_lga])
+    receiver_state_rel = db.relationship("State", foreign_keys=[receiver_state])
+    receiver_lga_rel = db.relationship("Lga", foreign_keys=[receiver_lga])
 
 
-
-
-
-class EmailNotification(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    booking_id = db.Column(db.Integer, db.ForeignKey('booking.id'))
-    booking = db.relationship('Booking', backref=db.backref('email_notifications', lazy=True))
-    notification_type = db.Column(db.String(100), nullable=False)
-    message = db.Column(db.Text, nullable=False)  # Add this line
-    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-
-
-
-
-class Testimonials(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    quote = db.Column(db.Text, nullable=False)
-    author = db.Column(db.String(100), nullable=False)
-    rating = db.Column(db.Integer, nullable=False, default=0)
-    status = db.Column(db.String(50), default='pending')
 
 class State(db.Model):
      state_id = db.Column(db.Integer, primary_key=True)
@@ -63,13 +64,4 @@ class Lga(db.Model):
      state = db.relationship('State', backref=db.backref('lgas', lazy=True))
      lga_name = db.Column(db.String(50), nullable=False)     
 
-class Booking(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
-    booking_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    status = db.Column(db.String(100), nullable=False)
-    user = db.relationship('Users', backref=db.backref('bookings', lazy=True))
-    lga_id = db.Column(db.Integer, db.ForeignKey('lga.lga_id'))
-    state_id = db.Column(db.Integer, db.ForeignKey('state.state_id'))
-    service = db.relationship('Service', backref=db.backref('bookings', lazy=True))     
+
